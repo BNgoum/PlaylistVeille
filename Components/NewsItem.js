@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image } from 'react-native'
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 
 class NewsItem extends React.Component {
   render() {
+    const { news, displayDetailForNews } = this.props
+
     return (
-      <View style={styles.main_container}>
+      <TouchableOpacity style={styles.main_container} onPress={() => displayDetailForNews(news.title)}>
         <Image
           style={styles.image}
           source={{uri: this.props.news.urlToImage }}
@@ -16,13 +18,12 @@ class NewsItem extends React.Component {
           </View>
           <View style={styles.description_container}>
             <Text style={styles.description_text} numberOfLines={6}>{ this.props.news.description }</Text>
-            {/* La propriété numberOfLines permet de couper un texte si celui-ci est trop long, il suffit de définir un nombre maximum de ligne */}
           </View>
           <View style={styles.date_container}>
             <Text style={styles.date_text}>Sorti { this.props.news.publishedAt }</Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 }

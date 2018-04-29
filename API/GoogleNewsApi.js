@@ -13,3 +13,5 @@ export function getNewsFromApiWithSearchedText (codePays, page) {
     .then((response) => response.json())
     .catch((error) => console.error(error)) 
 }
+
+/* export function getNewsDetailFromApi (id) */

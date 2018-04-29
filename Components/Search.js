@@ -1,8 +1,9 @@
 import React from 'react'
-import { StyleSheet, View, TextInput, Button, FlatList, Text, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, TextInput, FlatList, Text, ActivityIndicator } from 'react-native'
 import listCategories from '../Helpers/Categories'
 import NewsItem from './NewsItem'
 import { getNewsFromApiWithSearchedText } from '../API/GoogleNewsApi'
+import { Button } from 'react-native-elements'
 
 class Search extends React.Component {
     constructor(props) {
@@ -58,28 +59,33 @@ class Search extends React.Component {
         }
     }
 
+    _displayDetailForNews = (idNews) => {
+        console.log("########## Display news with id " + idNews)
+        this.props.navigation.navigate("NewsDetail", { idNews: idNews })
+    }
+
   render() {
       return (
         <View style={styles.viewGeneral}>
             <TextInput
-                placeholder='Entrez le code 2 chiffres du pays...'
+                placeholder='Entrez le code 2 lettres du pays...'
                 style={styles.textinput}
                 maxLength={2}
                 onChangeText={(text) => this._searchTextInputChanged(text)}
                 onSubmitEditing={() => this._searchNews() }  
             />
-            <Button title='Recherche' onPress={() => this._searchNews()} style={styles.buttonStyle}/>
+            <Button iconRight={{name: 'search'}} title='Rechercher' onPress={() => this._searchNews()} buttonStyle={styles.buttonStyle}/>
             <FlatList
                 data={this.state.news}
-                keyExtractor={(item) => item.id}
-                renderItem={({item}) => <NewsItem news={item} />}
-                onEndReachedThreshold={ 0.5 }
+                keyExtractor={(item) => item.title}
+                renderItem={({item}) => <NewsItem news={item} displayDetailForNews={this._displayDetailForNews} />}
+                /* onEndReachedThreshold={ 0.5 }
                 onEndReached={() => {
                     if (this.state.news.length > 0) {
                         console.log('OnEndReached')
                         this._loadNews();
                     }
-                }}
+                }} */
             />
             {this._displayLoading()}
         </View>
@@ -89,7 +95,7 @@ class Search extends React.Component {
 
 const styles = StyleSheet.create({
     viewGeneral: {
-        flex: 5
+        flex: 1
     },
     textinput: {
         marginLeft: 5,
@@ -98,9 +104,8 @@ const styles = StyleSheet.create({
         paddingLeft: 5
     },
     buttonStyle: {
-        height: 50,
-        marginLeft: 15,
-        marginRight: 15,
+        marginTop: 5,
+        backgroundColor: '#4682B4'
     },
     loading_container: {
         position: 'absolute',
