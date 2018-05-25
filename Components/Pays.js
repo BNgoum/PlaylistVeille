@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, ScrollView, View, TouchableHighlight, Text, Image } from 'react-native'
+import { StyleSheet, ScrollView, View, TouchableHighlight, Text, Image, AsyncStorage } from 'react-native'
 import { Button } from 'react-native-elements'
 
 class Pays extends React.Component {
@@ -11,7 +11,8 @@ class Pays extends React.Component {
                 'us': false,
                 'uk': false,
                 'ar': false
-            }
+            },
+            lang: ''
         }
         this.isChecked = this.isChecked.bind(this);
     }
@@ -32,7 +33,8 @@ class Pays extends React.Component {
         }
 
         this.setState({
-            pays: newState
+            pays: newState,
+            lang: pays
         })
     }
 
@@ -49,13 +51,15 @@ class Pays extends React.Component {
     }
 
     handleSubmit = () => {
-        this.props.navigation.navigate("Categories")
+        AsyncStorage.setItem('lang', this.state.lang);
+        this.props.navigation.navigate("Categories");
     }
 
     render () {
-        const { fr, us, uk, ar } = this.state.pays
+        const { fr, us, uk, ar } = this.state.pays;
 
         return (
+            
             <ScrollView style={ styles.container }>
                 <TouchableHighlight style={ styles.wrapper_block } onPress={ () => {this.pressOnCountry('fr')}} >
                     <View style={ styles.container_pays }>

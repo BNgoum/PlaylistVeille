@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text, Image, ScrollView, TouchableHighlight } from 'react-native'
+import { View, StyleSheet, Text, Image, ScrollView, TouchableHighlight, AsyncStorage } from 'react-native'
 import { Button } from 'react-native-elements'
 
 class Categories extends React.Component {
@@ -7,48 +7,65 @@ class Categories extends React.Component {
         super(props)
         this.state = { 
             categories: {
-                'Business': false,
-                'Divertissement': false,
+                'business': false,
+                'entertainment': false,
                 'General': false,
-                'Sante': false,
-                'Science': false,
-                'Sport': false,
-                'Technologie': false
-            }
+                'health': false,
+                'science': false,
+                'sports': false,
+                'technology': false
+            },
         }
     }
 
     handleSubmit = () => {
-        this.props.navigation.navigate("Accueil")
+
+        var categoriesTrue = '';
+        var first_iteration = true;
+
+        for(var key in this.state.categories) {
+            if (this.state.categories[key]) {
+                if (first_iteration) {
+                    categoriesTrue += key;
+                    first_iteration = false;
+                } else {
+                    categoriesTrue += ',' + key;
+                }
+            }
+        }
+
+        AsyncStorage.setItem('fil_actu', categoriesTrue);
+        this.props.navigation.navigate("Abonnements");
     }
 
     render () {
-        const { Business, Divertissement, General, Sante, Science, Sport, Technologie } = this.state.categories
+
+        const { business, entertainment, General, health, science, sports, technology } = this.state.categories;
         return (
             <ScrollView style={styles.viewGeneral}>
                 <TouchableHighlight
-                    onPress={() => Business ? (this.setState(prevState => ({categories : { ...prevState.categories, 'Business': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'Business': true}}))) }
+                    onPress={() => business ? (this.setState(prevState => ({categories : { ...prevState.categories, 'business': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'business': true}}))) }
                     style={styles.styleCategorie}>
-                        <View style={[styles.styleImage, Business ? styles.actif : styles.inactif]}>
+                        <View style={[styles.styleImage, business ? styles.actif : styles.inactif]}>
                             <Image source={require('../src/images/business.png')} style={styles.styleImage}/>
                             <Text style={styles.styleSousTitre}>Business</Text>
                         </View>
                 </TouchableHighlight>
                 
                 <TouchableHighlight 
-                    onPress={() => Divertissement ? (this.setState(prevState => ({categories : { ...prevState.categories, 'Divertissement': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'Divertissement': true}}))) }
+                    onPress={() => entertainment ? (this.setState(prevState => ({categories : { ...prevState.categories, 'entertainment': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'entertainment': true}}))) }
                     style={styles.styleCategorie}>
-                        <View style={[styles.styleImage, Divertissement ? styles.actif : styles.inactif]}>
+                        <View style={[styles.styleImage, entertainment ? styles.actif : styles.inactif]}>
                             <Image source={require('../src/images/divertissement.png')} style={styles.styleImage} />
                             <Text style={styles.styleSousTitre}>Divertissement</Text>
                         </View>
                 </TouchableHighlight>
 
                 <TouchableHighlight 
-                    onPress={() => Science ? (this.setState(prevState => ({categories : { ...prevState.categories, 'Science': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'Science': true}}))) }
+                    onPress={() => science ? (this.setState(prevState => ({categories : { ...prevState.categories, 'science': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'science': true}}))) }
                     style={styles.styleCategorie}>
                     
-                    <View style={[styles.styleImage, Science ? styles.actif : styles.inactif]}>
+                    <View style={[styles.styleImage, science ? styles.actif : styles.inactif]}>
                         <Image source={require('../src/images/science.jpg')} style={styles.styleImage}/>
                         <Text style={styles.styleSousTitre}>Sciences</Text>
                     </View>
@@ -64,27 +81,27 @@ class Categories extends React.Component {
                 </TouchableHighlight>
 
                 <TouchableHighlight 
-                    onPress={() => Sante ? (this.setState(prevState => ({categories : { ...prevState.categories, 'Sante': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'Sante': true}}))) }
+                    onPress={() => health ? (this.setState(prevState => ({categories : { ...prevState.categories, 'health': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'health': true}}))) }
                     style={styles.styleCategorie}>
-                    <View style={[styles.styleImage, Sante ? styles.actif : styles.inactif]}>
+                    <View style={[styles.styleImage, health ? styles.actif : styles.inactif]}>
                         <Image source={require('../src/images/sante.jpg')} style={styles.styleImage}/>
                         <Text style={styles.styleSousTitre}>Santé</Text>
                     </View>
                 </TouchableHighlight>
 
                 <TouchableHighlight 
-                    onPress={() => Sport ? (this.setState(prevState => ({categories : { ...prevState.categories, 'Sport': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'Sport': true}}))) }
+                    onPress={() => sports ? (this.setState(prevState => ({categories : { ...prevState.categories, 'sports': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'sports': true}}))) }
                     style={styles.styleCategorie}>
-                    <View style={[styles.styleImage, Sport ? styles.actif : styles.inactif]}>
+                    <View style={[styles.styleImage, sports ? styles.actif : styles.inactif]}>
                         <Image source={require('../src/images/sport.jpg')} style={styles.styleImage}/>
-                        <Text style={styles.styleSousTitre}>Sport</Text>
+                        <Text style={styles.styleSousTitre}>Sports</Text>
                     </View>
                 </TouchableHighlight>
 
                 <TouchableHighlight 
-                    onPress={() => Technologie ? (this.setState(prevState => ({categories : { ...prevState.categories, 'Technologie': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'Technologie': true}}))) }
+                    onPress={() => technology ? (this.setState(prevState => ({categories : { ...prevState.categories, 'technology': false}}))) : (this.setState(prevState => ({categories : { ...prevState.categories, 'technology': true}}))) }
                     style={styles.styleCategorie}>
-                    <View style={[styles.styleImage, Technologie ? styles.actif : styles.inactif]}>
+                    <View style={[styles.styleImage, technology ? styles.actif : styles.inactif]}>
                         <Image source={require('../src/images/technologie.jpg')} style={styles.styleImage}/>
                         <Text style={styles.styleSousTitre}>Technologie</Text>
                     </View>

@@ -9,6 +9,7 @@ import Authentification from '../Components/Authentification'
 import Categories from '../Components/Categories'
 import Pays from '../Components/Pays'
 import CreatePlaylist from '../Components/CreatePlaylist'
+import Abonnements from '../Components/Abonnements'
 
 const InscriptionStackNavigator = StackNavigator({
     Authentification: {
@@ -48,6 +49,19 @@ const InscriptionStackNavigator = StackNavigator({
                 color: '#333',
                 textAlign: 'center'
             },
+        }
+    },
+    Abonnements: {
+        screen: Abonnements,
+        navigationOptions: {
+            title: 'Abonnements',
+            headerStyle: {
+                backgroundColor: '#f2f2f2'
+            },
+            headerTitleStyle: {
+                color: '#333',
+                textAlign: 'center'
+            }
         }
     },
     Accueil: {

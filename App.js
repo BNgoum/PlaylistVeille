@@ -6,6 +6,7 @@ import Authentification from './Components/Authentification';
 import Pays from './Components/Pays';
 import Navigation from './Navigation/Navigation';
 import Playlists from './Components/Playlists';
+import Abonnements from './Components/Abonnements';
 
 export default class App extends React.Component {
 
